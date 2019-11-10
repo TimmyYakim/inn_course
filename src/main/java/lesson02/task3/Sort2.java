@@ -4,9 +4,9 @@ import java.util.Collection;
 import java.util.List;
 import java.util.TreeSet;
 
-
-/*
-    Класс сортировки, использующий TreeSet
+/**
+ * Класс сортировки, использующий TreeSet
+ * @author TVYakimov
  */
 class Sort2 implements Sort {
 

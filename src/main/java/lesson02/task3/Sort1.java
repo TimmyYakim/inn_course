@@ -4,10 +4,10 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-/*
-    Класс сортировки, использующий Collections.sort(people)
+/**
+ * Класс сортировки, использующий Collections.sort(people)
+ * @author TVYakimov
  */
-
 class Sort1 implements Sort {
 
     public Collection<Person> sort(List<Person> people) {

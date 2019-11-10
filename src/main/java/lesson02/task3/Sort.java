@@ -5,6 +5,7 @@ import java.util.List;
 
 /**
  * Интерфейс для классов сортировки
+ * @author TVYakimov
  */
 
 interface Sort {

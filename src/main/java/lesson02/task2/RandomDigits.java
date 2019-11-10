@@ -9,6 +9,9 @@ package lesson02.task2;
 
 import java.util.Random;
 
+/**
+ * @author TVYakimov
+ */
 public class RandomDigits {
 
     public static void main(String[] args) {

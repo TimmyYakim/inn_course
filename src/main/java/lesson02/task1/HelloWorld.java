@@ -7,6 +7,9 @@ package lesson02.task1;
 Вызвав свой вариант ошибки через оператор throw
  */
 
+/**
+ * @author TVYakimov
+ */
 public class HelloWorld {
 
     public static void main(String[] args) {
