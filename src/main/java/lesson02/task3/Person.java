@@ -4,8 +4,9 @@ import java.util.*;
 
 /**
  * Модель человека
+ * @author TVYakimov
  */
-class Person implements Comparable {
+public class Person implements Comparable {
     // пол
     private String sex;
     final String male = "MALE";
@@ -15,7 +16,17 @@ class Person implements Comparable {
     // имя
     private String name;
 
-    public Person() {}
+//    public Person() {}
+
+    public Person(boolean isMale, String name, Integer age) {
+        try {
+            setName(name);
+            setSex(isMale);
+            setAge(age);
+        } catch (Exception ex) {
+            System.out.println(ex.toString());
+        }
+    }
 
     public String getSex() {
         return sex;
@@ -85,7 +96,7 @@ class Person implements Comparable {
                 throw new Exception("Can't compare with not a Person: " + o.toString());
             }
             if (this.equals(o) &&
-                    (this.hashCode() != o.hashCode())) // костыль. В TreeSet исключаем проверку на равенство с самим собой
+                    (this != o)) // костыль. В TreeSet исключаем проверку на равенство с самим собой
                 throw new Exception("Person " + this.toString() + " and " + o.toString() + " are the same" );
         } catch (Exception e) {
             e.printStackTrace();
