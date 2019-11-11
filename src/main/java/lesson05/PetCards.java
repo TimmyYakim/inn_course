@@ -53,6 +53,7 @@ class PetCards {
         }
     }
 
+    @Deprecated
     /**
      * Находит питомцев по имени
      * @param petName имя питомца
@@ -60,11 +61,6 @@ class PetCards {
      */
     Set<Pet> getPet(String petName) {
         Set<Pet> foundPets = new HashSet<>();
-        for (Pet pet: pets.values()) {
-            if (pet.getPetName().equals(petName)) {
-                foundPets.add(pet);
-            }
-        }
         return foundPets;
     }
 
