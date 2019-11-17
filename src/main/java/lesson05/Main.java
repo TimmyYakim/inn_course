@@ -19,7 +19,7 @@ import lesson02.task3.Person;
 public class Main {
 
     public static void main(String[] args) {
-        PetCards petCards = new PetCards(); // создаем картотеку
+        PetCardsManager petManager = new PetCardsManager(); // создаем картотеку
         // Создаем хозяев. Класс Person возьмем из предыдущего ДЗ
         Person mater1 = new Person(true, "Sasha", 20);
         Person mater2 = new Person(true, "Misha", 23);
@@ -32,25 +32,27 @@ public class Main {
         Pet pet4 = new Pet("Mursic", 60f, mater4);
         Pet pet5 = new Pet("Kesha", 22f, mater4);
         // Учитываем питомцев в картотеке
-        petCards.addPet(pet1);
-        petCards.addPet(pet2);
-        petCards.addPet(pet3);
-        petCards.addPet(pet4);
-        petCards.addPet(pet5);
+        petManager.addPet(pet1);
+        petManager.addPet(pet2);
+        petManager.addPet(pet3);
+        petManager.addPet(pet4);
+        petManager.addPet(pet5);
         //Отсортируем
-        petCards.printPetsBy(PetCards.SortBy.PET_NAME);
-        petCards.printPetsBy(PetCards.SortBy.PET_MASTER);
-        petCards.printPetsBy(PetCards.SortBy.PET_WEIGHT);
+        petManager.printPetsBy(PetCardsManager.SortBy.PET_NAME);
+        petManager.printPetsBy(PetCardsManager.SortBy.PET_MASTER);
+        petManager.printPetsBy(PetCardsManager.SortBy.PET_WEIGHT);
         // Найдем
-        System.out.println(petCards.getPet("Kesha"));
+        System.out.println("Все питомцы с кличкой Kesha" + petManager.getPet("Kesha"));
         // Поменяем хозяина
-        petCards.setNewPetMaster(1, new Person(false, "Ksenia", 30));
+        petManager.setNewPetMaster(1, new Person(false, "Ksenia", 30));
         // кличку
-        petCards.setNewPetName(1, "Rex");
+        petManager.setNewPetName(1, "Rex");
         // вес
-        petCards.setNewPetWeight(1, 5f);
+        petManager.setNewPetWeight(1, 5f);
         // Снова напечатаем
-        petCards.printPetsBy(PetCards.SortBy.PET_NAME);
+        petManager.printPetsBy(PetCardsManager.SortBy.PET_NAME);
+
+
     }
 
 
