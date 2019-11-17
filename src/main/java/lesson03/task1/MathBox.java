@@ -91,9 +91,17 @@ public class MathBox<T extends Number>  extends ObjectBox {
         return Objects.equals(numbers, mathBox.numbers);
     }
 
+    // Сделал свою реализацию hashCode. Аналогична тому, если вызвать:
+    // Objects.hash => Arrays.hashCode(numbers.toArray())
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), numbers);
+        if (numbers == null)
+            return 0;
+        int result = 1;
+        for (T element : numbers)
+            result = 31 * result + (element == null ? 0 : element.hashCode());
+        return result;
+//        return Objects.hash(super.hashCode(), numbers);
     }
 
     @Override
