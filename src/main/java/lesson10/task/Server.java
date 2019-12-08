@@ -18,7 +18,7 @@ import java.util.concurrent.ConcurrentMap;
  */
 public class Server implements Runnable {
 
-    public static final Integer SERVER_PORT = 4999;
+    public static final Integer SERVER_PORT = ...;
     private final Socket clientSocket;
     // пул клиентов, имеющих подключение к серверу
     private static ConcurrentMap<String, Socket> clients = new ConcurrentHashMap<>();
@@ -33,7 +33,7 @@ public class Server implements Runnable {
     private static MulticastSocket multicastSocket; // сокет широковещательной рассылки
     private static InetAddress group;
     public static String GROUP = "230.0.0.0"; // группа широковещаетельной рассылки
-    public static int MC_SERVER_PORT = 4321; // порт широковещаетельной рассылки
+    public static int MC_SERVER_PORT = ...; // порт широковещаетельной рассылки
 
     public Server(Socket socket) throws IOException {
         // привязываем нового клиента
