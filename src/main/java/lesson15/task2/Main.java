@@ -24,9 +24,9 @@ import java.sql.SQLException;
  */
 public class Main {
 
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) throws SQLException, ClassNotFoundException {
         // Создание БД
-        TableMaker maker = new TableMaker("jdbc:h2:~/test", "sa", "");
+        TableMaker maker = new TableMaker();
         maker.createTables();
         // Добавление пользователя
         User user = new User(1, "user", new Date(294328934L), 1, "user", "user", "user");

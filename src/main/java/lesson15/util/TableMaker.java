@@ -1,10 +1,10 @@
 package lesson15.util;
 
 import com.sun.xml.internal.ws.Closeable;
+import lesson16.util.DBConnection;
 
 import javax.xml.ws.WebServiceException;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Arrays;
@@ -20,8 +20,8 @@ public class TableMaker implements Closeable {
     private Connection connection;
     private Statement statement;
 
-    public TableMaker(String url, String user, String password) throws SQLException {
-        connection = DriverManager.getConnection(url, user, password);
+    public TableMaker() throws SQLException, ClassNotFoundException {
+        connection = DBConnection.getConnection();
         statement = connection.createStatement();
     }
 
@@ -67,6 +67,14 @@ public class TableMaker implements Closeable {
             "user_id INTEGER, " +
             "role_id  INTEGER" +
             ")";
+    private String logsTable = "drop table LOGS if exists; " +
+            "create table LOGS (" +
+            "ID INTEGER auto_increment, " +
+            "DATE TIMESTAMP, " +
+            "LOG_LEVEL VARCHAR(1024), " +
+            "MESSAGE VARCHAR(1024), " +
+            "EXCEPTION VARCHAR(1024)" +
+            ")";
 
-    private List<String> queries = Arrays.asList(userTable, userRoleTable, roleTable);
+    private List<String> queries = Arrays.asList(userTable, userRoleTable, roleTable, logsTable);
 }

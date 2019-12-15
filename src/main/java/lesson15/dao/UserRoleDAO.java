@@ -15,11 +15,13 @@ public class UserRoleDAO implements IUserRoleDAO {
 
     private final String dbName = "user_role";
 
-//    private final DBConnection dbConnection = DBConnection.getInstance();
-    private final Connection connection = DBConnection.getInstance().getConnection();
+    private final Connection connection = DBConnection.getConnection();
+
+    public UserRoleDAO() throws SQLException, ClassNotFoundException {
+    }
+
     @Override
     public boolean addUserRole(User user, Role role) {
-//        try (Connection connection = dbConnection.getConnection();
         try (
              PreparedStatement statement = connection.prepareStatement(
                      "insert into " + dbName + " (user_id, role_id) values (?, ?)")){

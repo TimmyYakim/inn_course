@@ -18,7 +18,10 @@ public class UserDAO implements IUserDAO {
 
     private Savepoint addUserSavepoint = null;
 
-    private final Connection connection = DBConnection.getInstance().getConnection();
+    private final Connection connection = DBConnection.getConnection();
+
+    public UserDAO() throws SQLException, ClassNotFoundException {
+    }
 
     @Override
     public boolean addUser(User user) {

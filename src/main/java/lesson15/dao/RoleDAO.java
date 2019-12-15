@@ -16,7 +16,10 @@ public class RoleDAO implements IRoleDAO {
 
     private final String dbName = "role";
 
-    private final Connection connection = DBConnection.getInstance().getConnection();
+    private final Connection connection = DBConnection.getConnection();
+
+    public RoleDAO() throws SQLException, ClassNotFoundException {
+    }
 
     @Override
     public boolean addRole(Role role) {

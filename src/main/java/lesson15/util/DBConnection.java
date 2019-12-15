@@ -11,32 +11,18 @@ import java.sql.SQLException;
  */
 public class DBConnection {
 
-    private static DBConnection dbConnection;
-    private Connection connection;
-    private String url = "jdbc:h2:~/test";
-    private String password = "";
-    private String user = "sa";
+    private static Connection connection;
+    private static String url = "jdbc:h2:~/test";
+    private static String password = "";
+    private static String user = "sa";
 
+    public DBConnection() {}
 
-    public DBConnection() {
-        try {
+    public static Connection getConnection() throws ClassNotFoundException, SQLException {
+        if (connection == null) {
             Class.forName("org.h2.Driver");
-            this.connection = DriverManager.getConnection(url, user, password);
-        } catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
+            connection = DriverManager.getConnection(url, user, password);
         }
-
-    }
-
-    public static DBConnection getInstance() {
-        if (dbConnection == null) {
-            dbConnection = new DBConnection();
-            return dbConnection;
-        }
-        return dbConnection;
-    }
-
-    public Connection getConnection() {
         return connection;
     }
 
