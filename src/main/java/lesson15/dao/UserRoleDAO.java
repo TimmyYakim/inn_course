@@ -4,7 +4,9 @@ import lesson15.pojo.Role;
 import lesson15.pojo.User;
 import lesson15.util.DBConnection;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 /**
  * Многие ко многим (Пользователь - Роль)
@@ -24,12 +26,14 @@ public class UserRoleDAO implements IUserRoleDAO {
     public boolean addUserRole(User user, Role role) {
         try (
              PreparedStatement statement = connection.prepareStatement(
-                     "insert into " + dbName + " (user_id, role_id) values (?, ?)")){
+                     "insert into " + dbName + " (user_id, role_id) values (?, ?);")){
+            connection.setAutoCommit(false);
             statement.setInt(1, user.getId());
             statement.setInt(2, role.getId());
-            statement.executeBatch();
+            statement.executeUpdate();
+            connection.commit();
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
             return false;
         }
         return true;

@@ -2,7 +2,7 @@ package lesson15.dao;
 
 import lesson15.pojo.User;
 
-import java.util.List;
+import java.sql.SQLException;
 
 /**
  * Пользователь
@@ -11,8 +11,8 @@ import java.util.List;
  */
 public interface IUserDAO {
 
-    public boolean addUser(User user);
-    public boolean addUsers(List<User> user);
+    public User addUser(User user) throws SQLException;
+    public User addUser(User user, String savepoint) throws SQLException;
     public User getUserByLoginAndName(int login_id, String name);
 
 

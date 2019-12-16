@@ -15,8 +15,7 @@ public class Role {
 
     public enum RoleName {Administration, Clients, Billing}
 
-    public Role(int id, RoleName name, String description) {
-        this.id = id;
+    public Role(RoleName name, String description) {
         this.name = name;
         this.description = description;
     }

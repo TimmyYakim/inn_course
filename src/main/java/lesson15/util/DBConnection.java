@@ -12,15 +12,15 @@ import java.sql.SQLException;
 public class DBConnection {
 
     private static Connection connection;
-    private static String url = "jdbc:h2:~/test";
-    private static String password = "";
-    private static String user = "sa";
+    private static String url = "jdbc:postgresql://localhost:5432/inno_lesson15";
+    private static String password = "1234";
+    private static String user = "usr";
 
     public DBConnection() {}
 
     public static Connection getConnection() throws ClassNotFoundException, SQLException {
         if (connection == null) {
-            Class.forName("org.h2.Driver");
+            Class.forName("org.postgresql.Driver");
             connection = DriverManager.getConnection(url, user, password);
         }
         return connection;

@@ -20,8 +20,7 @@ public class User {
 
     public User(){}
 
-    public User(int id, String name, Date birthday, int login_ID, String city, String email, String description) {
-        this.id = id;
+    public User(String name, Date birthday, int login_ID, String city, String email, String description) {
         this.name = name;
         this.birthday = birthday;
         this.login_ID = login_ID;
@@ -54,11 +53,11 @@ public class User {
         this.birthday = birthday;
     }
 
-    public int getLogin_ID() {
+    public int getLoginId() {
         return login_ID;
     }
 
-    public void setLogin_ID(int login_ID) {
+    public void setLoginId(int login_ID) {
         this.login_ID = login_ID;
     }
 

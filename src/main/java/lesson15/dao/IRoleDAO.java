@@ -9,6 +9,6 @@ import lesson15.pojo.Role;
  */
 public interface IRoleDAO {
 
-    public boolean addRole(Role role);
+    public Role addRole(Role role);
 
 }
