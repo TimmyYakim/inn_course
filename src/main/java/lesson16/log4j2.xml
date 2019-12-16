@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+    <Appenders>
+        <JDBC name="test" tablename="LOGS">
+            <ConnectionFactory class="lesson16.util.DBConnection" method="getConnection"/>
+            <Column name="DATE" isEventTimestamp="true"/>
+            <Column name="LOG_LEVEL" pattern="%level"/>
+            <Column name="MESSAGE" pattern="%m"/>
+            <Column name="EXCEPTION" pattern="%throwable"/>
+        </JDBC>
+    </Appenders>
+    <Loggers>
+        <logger name="lesson16.util" level="debug" additivity="false">
+            <AppenderRef ref="test"/>
+        </logger>
+        <root level="trace">
+            <AppenderRef ref="test"/>
+        </root>
+
+    </Loggers>
+</Configuration>
