@@ -12,9 +12,9 @@ import java.sql.SQLException;
 public class DBConnection {
 
     private static Connection connection;
-    private static String url = "jdbc:postgresql://localhost:5432/inno_lesson15";
-    private static String password = "1234";
-    private static String user = "usr";
+    private static String url = "jdbc:postgresql://...";
+    private static String password = "...";
+    private static String user = "...";
 
     public DBConnection() {}
 
