@@ -29,6 +29,10 @@ public class UserDAO implements IUserDAO {
         connection = ConnectionManager.getConnection();
     }
 
+    public UserDAO(ConnectionManager connectionManager) throws SQLException, ClassNotFoundException {
+        connection = connectionManager.getConnectionReturn();
+    }
+
     @Override
     public boolean addUser(User user, String savepoint) throws SQLException {
         logger.info("Start adding a users");
@@ -81,7 +85,7 @@ public class UserDAO implements IUserDAO {
         return users;
     }
 
-    private List<User> getUsers(ResultSet resultSet) throws SQLException {
+    public List<User> getUsers(ResultSet resultSet) throws SQLException {
         List<User> users = new ArrayList<>();
         if (Objects.isNull(resultSet)) {
             logger.info("Can't get as result set id is null");

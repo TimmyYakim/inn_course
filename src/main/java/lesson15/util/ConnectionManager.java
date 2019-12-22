@@ -1,32 +1,42 @@
 package lesson15.util;
 
-import org.apache.commons.dbcp.BasicDataSource;
-
+import java.io.Closeable;
+import java.io.IOException;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.SQLException;
 
 /**
+ * Вспомогательный класс для создания connection с БД.
+ *
  * @author Timofey Yakimov
  */
-public class ConnectionManager {
+public class ConnectionManager implements Closeable {
 
-    private static BasicDataSource dataSource;
-    private static String driver = "org.postgresql.Driver";
+    private static Connection connection;
     private static String url = "jdbc:postgresql://localhost:5432/inno_lesson15";
-    private static String password = "85173219";
+    private static String password = "730661035145";
     private static String user = "usr";
 
-    public ConnectionManager() {}
-
-    public static Connection getConnection() throws SQLException {
-        if (dataSource == null) {
-            dataSource = new BasicDataSource();
-            dataSource.setUrl(url);
-            dataSource.setDriverClassName(driver);
-            dataSource.setUsername(user);
-            dataSource.setPassword(password);
+    public static Connection getConnection() throws ClassNotFoundException, SQLException {
+        if (connection == null) {
+            Class.forName("org.postgresql.Driver");
+            connection = DriverManager.getConnection(url, user, password);
         }
-        return dataSource.getConnection();
+        return connection;
+    }
+
+    @Override
+    public void close() throws IOException {
+        connection = null;
+    }
+
+    public Connection getConnectionReturn() throws ClassNotFoundException, SQLException {
+        if (connection == null) {
+            Class.forName("org.postgresql.Driver");
+            connection = DriverManager.getConnection(url, user, password);
+        }
+        return connection;
     }
 
 }

@@ -18,7 +18,7 @@ import java.util.Objects;
  */
 public class UserRoleDAO implements IUserRoleDAO {
 
-    private static final Logger logger = LogManager.getLogger(lesson16.dao.UserRoleDAO.class);
+    private static final Logger logger = LogManager.getLogger(UserRoleDAO.class);
 
     private static final String dbName = "user_role";
 
@@ -28,6 +28,10 @@ public class UserRoleDAO implements IUserRoleDAO {
         connection = ConnectionManager.getConnection();
     }
 
+    public UserRoleDAO(ConnectionManager connectionManager) throws SQLException, ClassNotFoundException {
+        connection = connectionManager.getConnectionReturn();
+    }
+
     @Override
     public boolean addUserRole(User user, Role role) throws SQLException, ClassNotFoundException {
         logger.info("Start adding a link between user and role");
@@ -35,10 +39,10 @@ public class UserRoleDAO implements IUserRoleDAO {
             logger.info("No such user or role");
             return false;
         }
-        UserDAO userDAO = new UserDAO();
-        RoleDAO roleDAO = new RoleDAO();
-        user = userDAO.getUserByLoginAndName(user.getLoginId(), user.getName());
-        role = roleDAO.getRoleByNameAndDescription(Role.RoleName.valueOf(role.getName()), role.getDescription());
+//        UserDAO userDAO = new UserDAO();
+//        RoleDAO roleDAO = new RoleDAO();
+//        user = userDAO.getUserByLoginAndName(user.getLoginId(), user.getName());
+//        role = roleDAO.getRoleByNameAndDescription(Role.RoleName.valueOf(role.getName()), role.getDescription());
         try (PreparedStatement statement = connection.prepareStatement(addUserRoleQuery)){
             connection.setAutoCommit(false);
             statement.setInt(1, user.getId());

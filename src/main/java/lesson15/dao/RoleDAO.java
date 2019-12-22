@@ -30,6 +30,10 @@ public class RoleDAO implements IRoleDAO {
         connection = ConnectionManager.getConnection();
     }
 
+    public RoleDAO(ConnectionManager connectionManager) throws SQLException, ClassNotFoundException {
+        connection = connectionManager.getConnectionReturn();
+    }
+
     @Override
     public List<Role> getAll() throws SQLException {
         logger.info("Start getting roles");
@@ -45,7 +49,7 @@ public class RoleDAO implements IRoleDAO {
         return roles;
     }
 
-    private List<Role> getRoles(ResultSet resultSet) throws SQLException {
+    public List<Role> getRoles(ResultSet resultSet) throws SQLException {
         List<Role> roles = new ArrayList<>();
         if (Objects.isNull(resultSet)) {
             logger.info("Result set is null");
