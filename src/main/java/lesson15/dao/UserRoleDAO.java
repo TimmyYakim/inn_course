@@ -3,6 +3,8 @@ package lesson15.dao;
 import lesson15.pojo.Role;
 import lesson15.pojo.User;
 import lesson15.util.ConnectionManager;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,6 +18,8 @@ import java.util.Objects;
  */
 public class UserRoleDAO implements IUserRoleDAO {
 
+    private static final Logger logger = LogManager.getLogger(lesson16.dao.UserRoleDAO.class);
+
     private static final String dbName = "user_role";
 
     private final Connection connection;
@@ -26,8 +30,9 @@ public class UserRoleDAO implements IUserRoleDAO {
 
     @Override
     public boolean addUserRole(User user, Role role) throws SQLException, ClassNotFoundException {
+        logger.info("Start adding a link between user and role");
         if (Objects.isNull(user) || Objects.isNull(role)) {
-            System.out.println("No such user or role");
+            logger.info("No such user or role");
             return false;
         }
         UserDAO userDAO = new UserDAO();
@@ -41,7 +46,7 @@ public class UserRoleDAO implements IUserRoleDAO {
             statement.executeUpdate();
             connection.commit();
         } catch (SQLException e) {
-            System.out.println("Can't link role and user because of " + e.getClass());
+            logger.error("Can't link role and user because of " + e.getClass());
             throw new SQLException("Can't link role and user because of " + e.getClass());
         }
         return true;

@@ -49,9 +49,9 @@ public class Main {
             userRoleDAO.addUserRole(user2, role2);
             // установить точку сохранения (SAVEPOINT A), намеренно ввести некорректные данные на последней операции,
             // что бы транзакция откатилась к логической точке SAVEPOINT A
-            userDAO.addUser(null, "SAVEPOINT_A");
+//            userDAO.addUser(null, "SAVEPOINT_A");
         } finally {
-            dbConnection.close();
+//            dbConnection.close();
         }
     }
 }

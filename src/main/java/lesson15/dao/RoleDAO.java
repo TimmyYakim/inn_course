@@ -2,6 +2,8 @@ package lesson15.dao;
 
 import lesson15.pojo.Role;
 import lesson15.util.ConnectionManager;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -18,6 +20,8 @@ import java.util.Objects;
  */
 public class RoleDAO implements IRoleDAO {
 
+    private static final Logger logger = LogManager.getLogger(RoleDAO.class);
+
     private static final String dbName = "role";
 
     private final Connection connection;
@@ -28,13 +32,14 @@ public class RoleDAO implements IRoleDAO {
 
     @Override
     public List<Role> getAll() throws SQLException {
+        logger.info("Start getting roles");
         List<Role> roles = new ArrayList<>();
         try (PreparedStatement statement = connection.prepareStatement(getAllRolesQuery)) {
             ResultSet resultSet = statement.executeQuery();
             roles = getRoles(resultSet);
             resultSet.close();
         } catch (SQLException e) {
-            System.out.println("Can't get the roles because of SQLException");
+            logger.error("Can't get the roles because of SQLException");
             throw new SQLException("Can't get the roles because of SQLException");
         }
         return roles;
@@ -43,7 +48,7 @@ public class RoleDAO implements IRoleDAO {
     private List<Role> getRoles(ResultSet resultSet) throws SQLException {
         List<Role> roles = new ArrayList<>();
         if (Objects.isNull(resultSet)) {
-            System.out.println("Result set is null");
+            logger.info("Result set is null");
             return roles;
         }
         while (resultSet.next()) {
@@ -58,14 +63,15 @@ public class RoleDAO implements IRoleDAO {
 
     @Override
     public boolean add(Role role) throws SQLException {
+        logger.info("Start adding a role");
         if (role == null) {
-            System.out.println("Can't add as role is null");
+            logger.info("Can't add as role is null");
             return false;
         }
         if (role.equals(getRoleByNameAndDescription(
                 Role.RoleName.valueOf(role.getName()),
                 role.getDescription()))) {
-            System.out.println("Such role already exists");
+            logger.info("Such role already exists");
             return false;
         }
         try (PreparedStatement statement = connection.prepareStatement(addNewRoleQuery)){
@@ -75,7 +81,7 @@ public class RoleDAO implements IRoleDAO {
             statement.executeUpdate();
             connection.commit();
         } catch (SQLException e) {
-            System.out.println("Can't add the role because of SQLException");
+            logger.error("Can't add the role because of SQLException");
             throw new SQLException("Can't add the role because of SQLException");
         } finally {
             if (connection != null) {
@@ -87,8 +93,9 @@ public class RoleDAO implements IRoleDAO {
 
     @Override
     public boolean delete(int roleId) throws SQLException {
+        logger.info("Start deleting a role");
         if (roleId < 1) {
-            System.out.println("Can't delete as role id is zero or negative");
+            logger.info("Can't delete as role id is zero or negative");
             return false;
         }
         try (PreparedStatement statement = connection.prepareStatement(deleteRoleByIdQuery)) {
@@ -98,7 +105,7 @@ public class RoleDAO implements IRoleDAO {
             connection.commit();
             return updatedRows > 0;
         } catch (SQLException e) {
-            System.out.println("Can't delete a role because of SQLException");
+            logger.error("Can't delete a role because of SQLException");
             throw new SQLException("Can't delete a role because of SQLException");
         } finally {
             connection.setAutoCommit(true);
@@ -107,12 +114,13 @@ public class RoleDAO implements IRoleDAO {
 
     @Override
     public boolean update(int roleId, Role role) throws SQLException {
+        logger.info("Start updating a role");
         if (roleId < 1) {
-            System.out.println("Can't delete as role id is zero or negative");
+            logger.info("Can't delete as role id is zero or negative");
             return false;
         }
         if (Objects.isNull(role)) {
-            System.out.println("Can't delete as role is null");
+            logger.info("Can't delete as role is null");
             return false;
         }
         try (PreparedStatement statement = connection.prepareStatement(updateRoleByIdQuery)) {
@@ -124,7 +132,7 @@ public class RoleDAO implements IRoleDAO {
             connection.commit();
             return updatedRows > 0;
         } catch (SQLException e) {
-            System.out.println("Can't update the role because of SQLException");
+            logger.error("Can't update the role because of SQLException");
             throw new SQLException("Can't update the role because of SQLException");
         } finally {
             connection.setAutoCommit(true);
@@ -133,6 +141,7 @@ public class RoleDAO implements IRoleDAO {
 
     @Override
     public Role getRoleByNameAndDescription(Role.RoleName name, String description) throws SQLException {
+        logger.info("Start getting a role");
         List<Role> roles = new ArrayList<>();
         try (PreparedStatement statement = connection.prepareStatement(getRoleByNameAndDescriptionQuery)) {
             statement.setString(1, name.toString());
@@ -141,8 +150,8 @@ public class RoleDAO implements IRoleDAO {
             roles = getRoles(resultSet);
             resultSet.close();
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            throw new SQLException("Can't get a role because of SQLException");
+            logger.error("Can't get a role because of " + e.getClass());
+            throw new SQLException("Can't get a role because of " + e.getClass());
         }
         return !roles.isEmpty() ? roles.get(0) : null;
     }

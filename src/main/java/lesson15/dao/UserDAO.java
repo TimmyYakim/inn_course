@@ -2,6 +2,8 @@ package lesson15.dao;
 
 import lesson15.pojo.User;
 import lesson15.util.ConnectionManager;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -15,6 +17,8 @@ import java.util.Objects;
  */
 public class UserDAO implements IUserDAO {
 
+    Logger logger = LogManager.getLogger(UserDAO.class);
+
     private static final String dbName = "usr";
 
     private Savepoint savepoint;
@@ -27,8 +31,9 @@ public class UserDAO implements IUserDAO {
 
     @Override
     public boolean addUser(User user, String savepoint) throws SQLException {
+        logger.info("Start adding a users");
         if (Objects.isNull(savepoint)) {
-            System.out.println("Can't add as savepoint is null");
+            logger.info("Can't add as savepoint is null");
             return false;
         }
         connection.setAutoCommit(false);
@@ -38,12 +43,13 @@ public class UserDAO implements IUserDAO {
 
     @Override
     public User getUserByLoginAndName(int loginId, String name) throws SQLException {
+        logger.info("Start getting a user");
         if (loginId < 1) {
-            System.out.println("Can't get as login id is zero or negative");
+            logger.info("Can't get as login id is zero or negative");
             return null;
         }
         if (Objects.isNull(name)) {
-            System.out.println("Can't get as name is null");
+            logger.info("Can't get as name is null");
             return null;
         }
         List<User> users = new ArrayList<>();
@@ -54,7 +60,7 @@ public class UserDAO implements IUserDAO {
             users = getUsers(resultSet);
             resultSet.close();
         } catch (SQLException e) {
-            System.out.println("Can't get a user because of " + e.getClass());
+            logger.error("Can't get a user because of " + e.getClass());
             throw new SQLException("Can't get a user because of " + e.getClass());
         }
         return !users.isEmpty() ? users.get(0) : null;
@@ -62,14 +68,14 @@ public class UserDAO implements IUserDAO {
 
     @Override
     public List<User> getAll()  throws SQLException {
+        logger.info("Start getting the users");
         List<User> users = new ArrayList<>();
-        try (PreparedStatement statement = connection.prepareStatement(
-                "select * from " + dbName + ";")) {
+        try (PreparedStatement statement = connection.prepareStatement(getAllUsersQuery)) {
             ResultSet resultSet = statement.executeQuery();
             users = getUsers(resultSet);
             resultSet.close();
         } catch (SQLException e) {
-            System.out.println("Can't get the users because of " + e.getClass());
+            logger.error("Can't get the users because of " + e.getClass());
             throw new SQLException("Can't get the users because of " + e.getClass());
         }
         return users;
@@ -78,7 +84,7 @@ public class UserDAO implements IUserDAO {
     private List<User> getUsers(ResultSet resultSet) throws SQLException {
         List<User> users = new ArrayList<>();
         if (Objects.isNull(resultSet)) {
-            System.out.println("Can't get as result set id is null");
+            logger.info("Can't get as result set id is null");
             return users;
         }
         while (resultSet.next()) {
@@ -97,9 +103,10 @@ public class UserDAO implements IUserDAO {
 
     @Override
     public boolean add(User user) throws SQLException {
+        logger.info("Start adding a user");
         try (PreparedStatement statement = connection.prepareStatement(addUserQuery)) {
             if (user.equals(getUserByLoginAndName(user.getLoginId(), user.getName()))) {
-                System.out.println("Such user already exists");
+                logger.info("Such user already exists");
                 return false;
             }
             connection.setAutoCommit(false);
@@ -115,11 +122,11 @@ public class UserDAO implements IUserDAO {
         } catch (NullPointerException e) {
             if (connection != null) {
                 connection.rollback(this.savepoint);
-                System.out.println("Can't add the user because of " + e.getClass());
+                logger.error("Can't add the user because of " + e.getClass());
             }
             throw new NullPointerException("Can't add the user because of " + e.getClass());
         } catch (SQLException e) {
-            System.out.println("Can't add the user because of " + e.getClass());
+            logger.error("Can't add the user because of " + e.getClass());
             throw new SQLException("Can't add the user because of " + e.getClass());
         } finally {
             if (connection != null) {
@@ -131,8 +138,9 @@ public class UserDAO implements IUserDAO {
 
     @Override
     public boolean delete(int userId) throws SQLException {
+        logger.info("Start deleting a user");
         if (userId < 1) {
-            System.out.println("Can't get as user id is zero or negative");
+            logger.info("Can't get as user id is zero or negative");
             return false;
         }
         try (PreparedStatement statement = connection.prepareStatement(deleteUserByIdQuery)) {
@@ -142,7 +150,7 @@ public class UserDAO implements IUserDAO {
             connection.commit();
             return updatedRows > 0;
         } catch (SQLException e) {
-            System.out.println("Can't delete a user because of "+ e.getClass());
+            logger.error("Can't delete a user because of "+ e.getClass());
             throw new SQLException("Can't delete a user because of "+ e.getClass());
         } finally {
             connection.setAutoCommit(true);
@@ -151,12 +159,13 @@ public class UserDAO implements IUserDAO {
 
     @Override
     public boolean update(int userId, User user) throws SQLException {
+        logger.info("Start updating a user");
         if (userId < 1) {
-            System.out.println("Can't update as user id is zero or negative");
+            logger.info("Can't update as user id is zero or negative");
             return false;
         }
         if (Objects.isNull(user)) {
-            System.out.println("Can't update as login id is null");
+            logger.info("Can't update as login id is null");
             return false;
         }
         try (PreparedStatement statement = connection.prepareStatement(updateUserByIdQuery)) {
@@ -172,7 +181,7 @@ public class UserDAO implements IUserDAO {
             connection.commit();
             return updatedRows > 0;
         } catch (SQLException e) {
-            System.out.println("Can't update the user because of " + e.getClass());
+            logger.error("Can't update the user because of " + e.getClass());
             throw new SQLException("Can't update the user because of " + e.getClass());
         } finally {
             connection.setAutoCommit(true);
