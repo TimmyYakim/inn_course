@@ -3,6 +3,8 @@ package lesson15.dao;
 import lesson15.pojo.Role;
 import lesson15.pojo.User;
 
+import java.sql.SQLException;
+
 /**
  * Многие ко многим (Пользователь - Роль)
  *
@@ -10,6 +12,6 @@ import lesson15.pojo.User;
  */
 public interface IUserRoleDAO {
 
-    public boolean addUserRole(User user, Role role);
+    boolean addUserRole(User user, Role role) throws SQLException, ClassNotFoundException;
 
 }

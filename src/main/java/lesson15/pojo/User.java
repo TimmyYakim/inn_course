@@ -29,11 +29,22 @@ public class User {
         this.description = description;
     }
 
+    public User(Integer id, String name, Date birthday, int login_ID, String city, String email, String description) {
+        this.id = id;
+        this.name = name;
+        this.birthday = birthday;
+        this.login_ID = login_ID;
+        this.city = city;
+        this.email = email;
+        this.description = description;
+    }
+
     public int getId() {
         return id;
     }
 
     public void setId(int id) {
+        checkValue(id);
         this.id = id;
     }
 
@@ -42,6 +53,7 @@ public class User {
     }
 
     public void setName(String name) {
+        checkValue(name);
         this.name = name;
     }
 
@@ -50,6 +62,7 @@ public class User {
     }
 
     public void setBirthday(Date birthday) {
+        checkValue(birthday);
         this.birthday = birthday;
     }
 
@@ -58,6 +71,7 @@ public class User {
     }
 
     public void setLoginId(int login_ID) {
+        checkValue(login_ID);
         this.login_ID = login_ID;
     }
 
@@ -66,6 +80,7 @@ public class User {
     }
 
     public void setCity(String city) {
+        checkValue(city);
         this.city = city;
     }
 
@@ -74,6 +89,7 @@ public class User {
     }
 
     public void setEmail(String email) {
+        checkValue(email);
         this.email = email;
     }
 
@@ -82,7 +98,14 @@ public class User {
     }
 
     public void setDescription(String description) {
+        checkValue(description);
         this.description = description;
+    }
+
+
+    private void checkValue(Object value) {
+        if (Objects.isNull(value))
+            throw new IllegalArgumentException("Null is not allowed");
     }
 
     @Override
@@ -103,11 +126,11 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return id == user.id;
+        return login_ID == user.login_ID && name.equals(user.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(login_ID, name);
     }
 }

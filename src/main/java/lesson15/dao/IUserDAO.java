@@ -9,11 +9,9 @@ import java.sql.SQLException;
  *
  * @author Timofey Yakimov
  */
-public interface IUserDAO {
+public interface IUserDAO extends DAO<User> {
 
-    public User addUser(User user) throws SQLException;
-    public User addUser(User user, String savepoint) throws SQLException;
-    public User getUserByLoginAndName(int login_id, String name);
-
+    boolean addUser(User user, String savepoint) throws SQLException;
+    User getUserByLoginAndName(int login_id, String name) throws SQLException;
 
 }
