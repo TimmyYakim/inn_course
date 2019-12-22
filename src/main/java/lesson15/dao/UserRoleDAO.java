@@ -39,10 +39,10 @@ public class UserRoleDAO implements IUserRoleDAO {
             logger.info("No such user or role");
             return false;
         }
-//        UserDAO userDAO = new UserDAO();
-//        RoleDAO roleDAO = new RoleDAO();
-//        user = userDAO.getUserByLoginAndName(user.getLoginId(), user.getName());
-//        role = roleDAO.getRoleByNameAndDescription(Role.RoleName.valueOf(role.getName()), role.getDescription());
+        UserDAO userDAO = new UserDAO();
+        RoleDAO roleDAO = new RoleDAO();
+        user = userDAO.getUserByLoginAndName(user.getLoginId(), user.getName());
+        role = roleDAO.getRoleByNameAndDescription(Role.RoleName.valueOf(role.getName()), role.getDescription());
         try (PreparedStatement statement = connection.prepareStatement(addUserRoleQuery)){
             connection.setAutoCommit(false);
             statement.setInt(1, user.getId());
